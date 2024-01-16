@@ -3,7 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_plates_provider/controller/db_provider.dart';
+import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
 class PieChartPageWidget extends StatelessWidget {
   PieChartPageWidget({Key? key});
@@ -79,7 +79,6 @@ class PieChartPageWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Consumer<DbProvider>(
-                  // valueListenable: recipeNotifier,
                   builder: (context, value, child) {
                     final chartProvider =
                         Provider.of<DbProvider>(context, listen: false);

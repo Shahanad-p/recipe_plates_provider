@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:recipe_plates_provider/View/widget/menu.dart';
 
-
-
 Widget buildGridList(
   BuildContext context, {
   File? image,
@@ -22,7 +20,6 @@ Widget buildGridList(
       (MediaQuery.of(context).orientation == Orientation.portrait ? 0.4 : 0.3);
   double cardHeight = 150.0;
 
-  ///?
   return Padding(
     padding: EdgeInsets.all(
       MediaQuery.of(context).size.width * 0.01,

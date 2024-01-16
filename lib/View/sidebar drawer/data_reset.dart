@@ -4,7 +4,6 @@ import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/splash_screen.dart';
-import 'package:recipe_plates_provider/functions/functons.dart';
 
 
 Future<void> resetRecipe(BuildContext context) async {

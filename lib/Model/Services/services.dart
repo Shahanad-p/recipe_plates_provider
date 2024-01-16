@@ -29,21 +29,12 @@ class DbServices {
 
   Future addToFavourite(recipeModel recipe) async {
     final favoriteBox = await Hive.openBox<recipeModel>('favorite_db');
-    // bool isAlreadyInFavorites = favoriteItems.contains(recipe);
+
     return favoriteBox.add(recipe);
-    // if (!isAlreadyInFavorites) {
-    //   favoriteBox.add(recipe);
-    //   recipeNotifier.value = List.from(recipeNotifier.value);
-    //   favoriteItemsNotifier.value = favoriteItems;
-    // }
   }
 
   Future<void> deleteFromFavourite(int index) async {
     final favoriteBox = await Hive.openBox<recipeModel>('favorite_db');
     favoriteBox.deleteAt(index);
-
-    // recipeNotifier.value = List.from(recipeNotifier.value);
-    // favoriteItemsNotifier.value = favoriteItems;
-    // favoriteItemsNotifier.value = favoriteBox.values.toList();
   }
 }

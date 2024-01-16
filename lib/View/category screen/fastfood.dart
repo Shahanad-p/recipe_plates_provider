@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/View/widget/menu.dart';
-import 'package:recipe_plates_provider/controller/db_provider.dart';
+import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
 class FastfoodPage extends StatelessWidget {
   const FastfoodPage({Key? key});
@@ -27,12 +27,10 @@ class FastfoodPage extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.black),
         ),
         body: Consumer<DbProvider>(
-          // valueListenable: recipeNotifier,
-          builder: (BuildContext ctx, recipeList, child) {
+          builder: (context, recipeList, child) {
             final filteredFastfoodList = recipeList.recipeNotifier
                 .where((food) => food.category.toLowerCase() == 'fastfood')
                 .toList();
-
             return Padding(
               padding: const EdgeInsets.all(15.10),
               child: ListView.builder(
@@ -44,7 +42,6 @@ class FastfoodPage extends StatelessWidget {
                   if (recipeData.image != null) {
                     recipeImage = File(recipeData.image!);
                   }
-
                   return buildGridList(
                     context,
                     image: recipeImage,

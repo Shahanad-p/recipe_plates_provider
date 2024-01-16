@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_plates_provider/controller/db_provider.dart';
+import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
 Future<bool?> showDeleteConfirmationDialog(
     BuildContext context, int index) async {

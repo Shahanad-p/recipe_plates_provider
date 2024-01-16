@@ -40,7 +40,7 @@ GestureDetector buildImageSelectionOption(
 ) {
   return GestureDetector(
     onTap: () {
-      onTap(); // No need for async/await here
+      onTap();
     },
     child: Card(
       elevation: 5,

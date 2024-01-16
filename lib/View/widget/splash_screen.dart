@@ -1,35 +1,23 @@
-// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:recipe_plates_provider/View/widget/bottom_navigation.dart';
 import 'package:recipe_plates_provider/View/widget/login_page.dart';
 import 'package:recipe_plates_provider/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SplashScreenWidget extends StatefulWidget {
-  const SplashScreenWidget({super.key});
+class SplashScreenWidget extends StatelessWidget {
+  const SplashScreenWidget({Key? key});
 
-  @override
-  State<SplashScreenWidget> createState() => _SplashScreenWidgetState();
-}
-
-class _SplashScreenWidgetState extends State<SplashScreenWidget> {
-  @override
-  void initState() {
-    CheckUserLoggedIn();
-    super.initState();
-  }
-
-  Future goToLogin() async {
+  Future<void> goToLogin(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 3));
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => LoginPageWidget()));
   }
 
-  Future<void> CheckUserLoggedIn() async {
+  Future<void> checkUserLoggedIn(BuildContext context) async {
     final sharedPref = await SharedPreferences.getInstance();
     final userLoggedIn = sharedPref.getBool(save_key_name);
     if (userLoggedIn == null || userLoggedIn == false) {
-      goToLogin();
+      goToLogin(context);
     } else {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const BottomNavBarWidget(userName: '')));
@@ -38,21 +26,30 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: SizedBox(
           height: double.infinity,
           width: double.infinity,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image(
-                image: AssetImage(
-                  'assets/side-view-mushroom-frying-with-stove-spice-human-hand-pan (1).jpg',
-                ),
-                fit: BoxFit.cover,
-              ),
-            ],
+          child: FutureBuilder(
+            future: checkUserLoggedIn(context),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return const Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image(
+                      image: AssetImage(
+                        'assets/side-view-mushroom-frying-with-stove-spice-human-hand-pan (1).jpg',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ],
+                );
+              } else {
+                return const CircularProgressIndicator();
+              }
+            },
           ),
         ),
       ),

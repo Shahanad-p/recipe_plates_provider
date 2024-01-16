@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
-import 'package:recipe_plates_provider/controller/db_provider.dart';
-import 'package:recipe_plates_provider/functions/functons.dart';
+import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
 final _imagePicker = ImagePicker();
 final nameController = TextEditingController();

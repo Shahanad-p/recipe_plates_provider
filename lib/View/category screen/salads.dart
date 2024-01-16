@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/View/widget/menu.dart';
-import 'package:recipe_plates_provider/controller/db_provider.dart';
+import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
 class SaladsPage extends StatelessWidget {
   const SaladsPage({super.key});
@@ -26,12 +26,10 @@ class SaladsPage extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.black),
         ),
         body: Consumer<DbProvider>(
-          // valueListenable: recipeNotifier,
           builder: (context, recipeList, child) {
             final filteredSaladsList = recipeList.recipeNotifier
                 .where((recipe) => recipe.category.toLowerCase() == 'salads')
                 .toList();
-
             return ListView.builder(
               shrinkWrap: true,
               itemCount: filteredSaladsList.length,
@@ -39,7 +37,6 @@ class SaladsPage extends StatelessWidget {
                 final recipeData = filteredSaladsList[index];
                 final recipeImage =
                     recipeData.image != null ? File(recipeData.image!) : null;
-
                 return buildGridList(
                   context,
                   image: recipeImage,

@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/menu.dart';
-import 'package:recipe_plates_provider/controller/db_provider.dart';
+import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
 class SoupPage extends StatelessWidget {
   const SoupPage({super.key});
@@ -27,8 +26,7 @@ class SoupPage extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.black),
         ),
         body: Consumer<DbProvider>(
-          // valueListenable: recipeNotifier,
-          builder: (BuildContext ctx, recipeList, child) {
+          builder: (context, recipeList, child) {
             final filteredBeveragesList = recipeList.recipeNotifier
                 .where((food) => food.category.toLowerCase() == 'soup')
                 .toList();
@@ -43,7 +41,6 @@ class SoupPage extends StatelessWidget {
                   if (recipeDatas.image != null) {
                     recipeImage = File(recipeDatas.image!);
                   }
-
                   return buildGridList(
                     context,
                     image: recipeImage,

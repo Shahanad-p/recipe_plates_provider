@@ -5,11 +5,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/splash_screen.dart';
-import 'package:recipe_plates_provider/controller/add_provider.dart';
-import 'package:recipe_plates_provider/controller/db_provider.dart';
-import 'package:recipe_plates_provider/controller/edit_provider.dart';
-import 'package:recipe_plates_provider/controller/home_provider.dart';
-import 'package:recipe_plates_provider/controller/splash_provider.dart';
+import 'package:recipe_plates_provider/Controller/add_provider.dart';
+import 'package:recipe_plates_provider/Controller/db_provider.dart';
+import 'package:recipe_plates_provider/Controller/home_provider.dart';
+import 'package:recipe_plates_provider/controller/bottom_provider.dart';
 
 const save_key_name = 'UserLoggedIn';
 Future<void> main() async {
@@ -30,11 +29,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AddScreenProvider()),
-        ChangeNotifierProvider(create: (context) => EditScreenProvider()),
         ChangeNotifierProvider(create: (context) => HomeScreenProvider()),
-        ChangeNotifierProvider(create: (context) => SplashScreenProvider()),
         ChangeNotifierProvider(create: (context) => DbProvider()),
-        // ChangeNotifierProvider(create: (context) => BottomProvider()),
+        ChangeNotifierProvider(create: (context) => BottomProvider()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -7,44 +7,23 @@ import 'package:recipe_plates_provider/View/widget/delete_snakbar.dart';
 import 'package:recipe_plates_provider/View/widget/edit_page.dart';
 import 'package:recipe_plates_provider/View/widget/home_decorate.dart';
 import 'package:recipe_plates_provider/View/widget/sidebar_drawer.dart';
-import 'package:recipe_plates_provider/controller/db_provider.dart';
-import 'package:recipe_plates_provider/controller/home_provider.dart';
+import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
-class HomePageWidget extends StatefulWidget {
+class HomePageWidget extends StatelessWidget {
   final String userName;
-  const HomePageWidget({super.key, required this.userName});
 
-  @override
-  _HomePageWidgetState createState() => _HomePageWidgetState();
-}
+  const HomePageWidget({Key? key, required this.userName}) : super(key: key);
 
-class _HomePageWidgetState extends State<HomePageWidget> {
-  List<recipeModel> displayedRecipes = [];
-  TextEditingController searchController = TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
+  void filterRecipes(BuildContext context, String query) {
     final getHomeProvider = Provider.of<DbProvider>(context, listen: false);
-    final homescreenprovider =
-        Provider.of<HomeScreenProvider>(context, listen: false);
-    getHomeProvider.getAllProvideByRecepe();
-    homescreenprovider.int(getHomeProvider.recipeNotifier);
-    usernameController.dispose();
+    final displayedRecipes = getHomeProvider.recipeNotifier
+        .where(
+            (recipe) => recipe.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    // Perform logic with displayedRecipes as needed
   }
 
-  void filterRecipes(String query) {
-    final getHomeProvider = Provider.of<DbProvider>(context, listen: false);
-    setState(() {
-      displayedRecipes = getHomeProvider.recipeNotifier
-          .where((recipe) =>
-              recipe.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
-  }
-
-  void deleteRecipies(int index) {
+  void deleteRecipies(BuildContext context, int index) {
     showDeleteConfirmationDialog(context, index).then((confirmed) {
       if (confirmed != null && confirmed) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -61,8 +40,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<DbProvider>(context, listen: false).getAllProvideByRecepe();
-    final home = Provider.of<HomeScreenProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         key: GlobalKey<ScaffoldState>(),
@@ -86,8 +63,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
               child: TextField(
-                controller: searchController,
-                onChanged: filterRecipes,
+                onChanged: (query) => filterRecipes(context, query),
                 decoration: InputDecoration(
                   label: const Text('Search'),
                   hintText: 'Search your recipes here..!',
@@ -98,9 +74,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   suffixIcon: IconButton(
-                    onPressed: () {
-                      searchController.clear();
-                    },
+                    onPressed: () {},
                     icon: const Icon(Icons.clear),
                   ),
                 ),
@@ -111,13 +85,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 padding: const EdgeInsets.all(20),
                 child: Consumer<DbProvider>(
                   builder: (context, value, child) {
+                    final displayedRecipes = value.recipeNotifier;
                     if (displayedRecipes.isEmpty) {
                       return SizedBox(
                         height: 500,
                         child: Lottie.asset(
-                            'assets/Animation - 1703913980311.json',
-                            height: 135,
-                            width: 135),
+                          'assets/Animation - 1703913980311.json',
+                          height: 135,
+                          width: 135,
+                        ),
                       );
                     }
                     return GridView.builder(
@@ -163,7 +139,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               );
 
                               if (result != null && result is recipeModel) {
-                                home.edit(index, result);
+                                // Logic for editing
                               }
                             },
                             icon: const Icon(
@@ -173,7 +149,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           ),
                           deleteIcon: IconButton(
                             onPressed: () {
-                              deleteRecipies(index);
+                              deleteRecipies(context, index);
                             },
                             icon: const Icon(
                               Icons.delete,

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/View/widget/menu.dart';
-import 'package:recipe_plates_provider/controller/db_provider.dart';
+import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
 class GrilledPage extends StatelessWidget {
   const GrilledPage({super.key});
@@ -26,12 +26,10 @@ class GrilledPage extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.black),
         ),
         body: Consumer<DbProvider>(
-          // valueListenable: recipeNotifier,
           builder: (context, recipeList, child) {
             final filteredGrilledList = recipeList.recipeNotifier
                 .where((recipe) => recipe.category.toLowerCase() == 'grilled')
                 .toList();
-
             return ListView.builder(
               shrinkWrap: true,
               itemCount: filteredGrilledList.length,
@@ -39,7 +37,6 @@ class GrilledPage extends StatelessWidget {
                 final recipeData = filteredGrilledList[index];
                 final recipeImage =
                     recipeData.image != null ? File(recipeData.image!) : null;
-
                 return buildGridList(
                   context,
                   image: recipeImage,

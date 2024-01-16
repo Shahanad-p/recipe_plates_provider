@@ -4,7 +4,9 @@
 // import 'package:recipe_plates/view/widget/home.dart';
 // import 'package:recipe_plates/view/widget/pie_chart.dart';
 
-// class BottomProvider extends ChangeNotifier {
+import 'package:flutter/material.dart';
+
+class BottomProvider extends ChangeNotifier {
 //   List pages = [
 //     const HomePageWidget(userName: ''),
 //     const FavouritePageWidget(),
@@ -18,4 +20,4 @@
 //     currentIndexValue = index;
 //     notifyListeners();
 //   }
-// }
+}

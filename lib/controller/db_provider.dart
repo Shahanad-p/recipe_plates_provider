@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
-import 'package:recipe_plates_provider/Services/services.dart';
+import 'package:recipe_plates_provider/Model/Services/services.dart';
 
 class DbProvider extends ChangeNotifier {
   List<recipeModel> displayedRecipes = [];
@@ -47,7 +47,6 @@ class DbProvider extends ChangeNotifier {
     if (!isAlreadyInFavorites) {
       favoriteItems.add(recipe);
       recipeNotifier = List.from(recipeNotifier);
-      // favoriteItemsNotifier.value = favoriteItems;
     }
     notifyListeners();
   }
@@ -67,57 +66,3 @@ class DbProvider extends ChangeNotifier {
     return totalCost;
   }
 }
-
-// class DbProvider extends ChangeNotifier {
-//   List<recipeModel> recipeNotifier = [];
-//   List<recipeModel> favoriteItemsNotifier = [];
-//   DbServices dbservice = DbServices();
-
-//   Future getAllRecipe() async {
-//     recipeNotifier = await dbservice.getAllRecipesByList();
-//     notifyListeners();
-//   }
-
-//   Future addRecipe(recipeModel value) async {
-//     await dbservice.addRecipes(value);
-//     await getAllRecipe();
-//   }
-
-//   Future deleteRecipe(int index) async {
-//     await dbservice.deleteRecipes(index);
-//     await getAllRecipe();
-//   }
-
-//   Future updateRecipe(recipeModel newRecipe, int index) async {
-//     await dbservice.updateRecipe(index, newRecipe);
-//     await getAllRecipe();
-//   }
-
-//   Future getAllFavRecipe() async {
-//     favoriteItemsNotifier = await dbservice.getAllFavouriteRecipes();
-//     notifyListeners();
-//   }
-
-//   // Future<void> addToFavorite(recipeModel recipe) async {
-//   //   await dbservice.addToFavorite(recipe);
-//   //   await getAllFavRecipe();
-//   // }
-//     Future<void> addToFavorite(recipeModel recipe) async {
-//     final favoriteBox = await dbservice.openFavoriteBox();
-//     bool isAlreadyInFavorites = favoriteItemsNotifier.contains(recipe);
-
-//     if (!isAlreadyInFavorites) {
-//       favoriteBox.add(recipe);
-//       await getAllFavRecipe();
-//     }
-//   }
-
-//   Future<void> deleteFromFavorite(int index) async {
-//     await dbservice.deleteFromFavorite(index);
-//     await getAllFavRecipe();
-//   }
-
-//   double calculateTotalCost(List<recipeModel> recipes) {
-//     return dbservice.calculateTotalCost(recipes);
-//   }
-// }
