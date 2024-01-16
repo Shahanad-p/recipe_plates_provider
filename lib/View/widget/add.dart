@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_plates_provider/Services/services.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/add_decorations.dart';
 import 'package:recipe_plates_provider/controller/add_provider.dart';
-
+import 'package:recipe_plates_provider/controller/db_provider.dart';
 
 class AddPageWidget extends StatelessWidget {
   const AddPageWidget({Key? key}) : super(key: key);
@@ -236,12 +235,14 @@ class AddPageWidget extends StatelessWidget {
   }
 
   void _setImage(BuildContext context, XFile? file) {
-    Provider.of<AddScreenProvider>(context, listen: false).img(file);
+    Provider.of<AddScreenProvider>(context, listen: false).imageProvider(file);
     Navigator.pop(context);
   }
 
   addButtonClicked(BuildContext context) {
+    final providerDatadb = Provider.of<DbProvider>(context, listen: false);
     final providerData = Provider.of<AddScreenProvider>(context, listen: false);
+
     final name = providerData.nameController.text.trim();
     final category = providerData.selectedCategory.trim();
     final description = providerData.descriptionController.text.trim();
@@ -263,7 +264,7 @@ class AddPageWidget extends StatelessWidget {
       image: providerData.image?.path,
     );
 
-    addRecipies(recipe);
+    providerDatadb.addProviderByReceipe(recipe);
 
     Navigator.of(context).pop(recipe);
     providerData.nameController.clear();

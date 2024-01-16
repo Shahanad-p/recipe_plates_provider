@@ -2,9 +2,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:recipe_plates_provider/Services/services.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
-
+import 'package:recipe_plates_provider/controller/db_provider.dart';
+import 'package:recipe_plates_provider/functions/functons.dart';
 
 final _imagePicker = ImagePicker();
 final nameController = TextEditingController();
@@ -52,8 +53,9 @@ class EditPageWidget extends StatefulWidget {
 class _EditPageWidgetState extends State<EditPageWidget> {
   @override
   void initState() {
+    final getProvider = Provider.of<DbProvider>(context, listen: false);
     super.initState();
-    getAllRecipiesByList();
+    getProvider.getAllProvideByRecepe();
 
     nameController.text = widget.name;
     categoryController.text = widget.category;
@@ -249,6 +251,7 @@ class _EditPageWidgetState extends State<EditPageWidget> {
   }
 
   Future<void> recipeUpdate(BuildContext context) async {
+    final updateProviderDb = Provider.of<DbProvider>(context, listen: false);
     final name = nameController.text.trim();
     final category = selectCategory.trim();
     final description = descriptionController.text.trim();
@@ -272,7 +275,7 @@ class _EditPageWidgetState extends State<EditPageWidget> {
       cost: cost,
       image: image,
     );
-    updateRecipe(widget.index, updatedRecipe);
+    updateProviderDb.updateProviderByReceipe(updatedRecipe, widget.index);
     Navigator.of(context).pop(updatedRecipe);
   }
 }

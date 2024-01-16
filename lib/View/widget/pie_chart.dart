@@ -2,9 +2,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:recipe_plates_provider/Services/services.dart';
-
-
+import 'package:provider/provider.dart';
+import 'package:recipe_plates_provider/controller/db_provider.dart';
 
 class PieChartPageWidget extends StatelessWidget {
   PieChartPageWidget({Key? key});
@@ -22,10 +21,11 @@ class PieChartPageWidget extends StatelessWidget {
     Colors.amberAccent,
   ];
 
-  List ChartRecpie = recipeNotifier.value;
-
   @override
   Widget build(BuildContext context) {
+    final getHomeProvider = Provider.of<DbProvider>(context, listen: false);
+
+    List ChartRecpie = getHomeProvider.recipeNotifier;
     return WillPopScope(
       onWillPop: () async => false,
       child: SafeArea(
@@ -49,14 +49,14 @@ class PieChartPageWidget extends StatelessWidget {
                 const SizedBox(height: 25),
                 const Text(
                   'Total Cost',
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
                 ),
                 const SizedBox(height: 30),
-                ValueListenableBuilder(
-                  valueListenable: recipeNotifier,
+                Consumer<DbProvider>(
+                  // valueListenable: recipeNotifier,
                   builder: (context, value, child) {
-                    double totalCost = calculateTotalCost(value);
+                    double totalCost =
+                        value.calculateTotalCost(value.recipeNotifier);
                     return Container(
                       height: 45,
                       width: 250,
@@ -78,9 +78,11 @@ class PieChartPageWidget extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20),
-                ValueListenableBuilder(
-                  valueListenable: recipeNotifier,
+                Consumer<DbProvider>(
+                  // valueListenable: recipeNotifier,
                   builder: (context, value, child) {
+                    final chartProvider =
+                        Provider.of<DbProvider>(context, listen: false);
                     if (ChartRecpie.isEmpty) {
                       return SizedBox(
                         height: 500,
@@ -102,7 +104,8 @@ class PieChartPageWidget extends StatelessWidget {
                               (index) {
                                 double cost =
                                     double.parse(ChartRecpie[index].cost);
-                                double totalCost = calculateTotalCost(value);
+                                double totalCost = chartProvider
+                                    .calculateTotalCost(value.recipeNotifier);
                                 double percentage = (cost / totalCost) * 100;
                                 final name = ChartRecpie[index].name;
                                 final category = ChartRecpie[index].category;

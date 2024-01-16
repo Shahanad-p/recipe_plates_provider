@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:recipe_plates_provider/Services/services.dart';
-
+import 'package:provider/provider.dart';
+import 'package:recipe_plates_provider/controller/db_provider.dart';
 
 Future<bool?> showDeleteConfirmationDialog(
     BuildContext context, int index) async {
+  final deleteProviderDb = Provider.of<DbProvider>(context, listen: false);
   return showDialog<bool>(
     context: context,
     barrierDismissible: false,
@@ -45,7 +46,7 @@ Future<bool?> showDeleteConfirmationDialog(
               ),
             ),
             onPressed: () {
-              deleteRecipies(index);
+              deleteProviderDb.deleteProviderByReceipe(index);
               Navigator.of(context).pop(true);
             },
           )

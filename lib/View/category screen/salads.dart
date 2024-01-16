@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:recipe_plates_provider/Services/services.dart';
-import 'package:recipe_plates_provider/Model/model.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/View/widget/menu.dart';
-
+import 'package:recipe_plates_provider/controller/db_provider.dart';
 
 class SaladsPage extends StatelessWidget {
   const SaladsPage({super.key});
@@ -26,10 +25,10 @@ class SaladsPage extends StatelessWidget {
           centerTitle: true,
           iconTheme: const IconThemeData(color: Colors.black),
         ),
-        body: ValueListenableBuilder<List<recipeModel>>(
-          valueListenable: recipeNotifier,
+        body: Consumer<DbProvider>(
+          // valueListenable: recipeNotifier,
           builder: (context, recipeList, child) {
-            final filteredSaladsList = recipeList
+            final filteredSaladsList = recipeList.recipeNotifier
                 .where((recipe) => recipe.category.toLowerCase() == 'salads')
                 .toList();
 

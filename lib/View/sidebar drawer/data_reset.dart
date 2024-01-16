@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
-import 'package:recipe_plates_provider/Services/services.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/splash_screen.dart';
+import 'package:recipe_plates_provider/functions/functons.dart';
 
 
 Future<void> resetRecipe(BuildContext context) async {
@@ -53,7 +53,7 @@ Future<void> resetRecipe(BuildContext context) async {
   if (confirmResetDatas == true) {
     final clearAllRecipe = await Hive.openBox<recipeModel>('recipe_db');
     clearAllRecipe.clear();
-    favoriteItems.clear();
+    // favoriteItems.clear();
 
     Navigator.pushReplacement(
       context,

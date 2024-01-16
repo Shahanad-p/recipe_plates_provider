@@ -1,10 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:recipe_plates_provider/Services/services.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/menu.dart';
-
+import 'package:recipe_plates_provider/controller/db_provider.dart';
 
 class FavouritePageWidget extends StatefulWidget {
   const FavouritePageWidget({super.key});
@@ -16,8 +16,11 @@ class FavouritePageWidget extends StatefulWidget {
 class _FavouritePageWidgetState extends State<FavouritePageWidget> {
   @override
   void initState() {
+    final getFavouriteProvider =
+        Provider.of<DbProvider>(context, listen: false);
     super.initState();
-    getAllFavouriteRecipes();
+    getFavouriteProvider.getAllFavouriteProviderByRecipes();
+    setState(() {});
   }
 
   @override
@@ -36,10 +39,9 @@ class _FavouritePageWidgetState extends State<FavouritePageWidget> {
             ),
             centerTitle: true,
           ),
-          body: ValueListenableBuilder(
-            valueListenable: favoriteItemsNotifier,
-            builder: (BuildContext context, List<recipeModel> favoriteList,
-                Widget? child) {
+          body: Consumer<DbProvider>(
+            // valueListenable: favoriteItemsNotifier,
+            builder: (BuildContext context, favoriteList, Widget? child) {
               return Padding(
                 padding: const EdgeInsets.all(20),
                 child: GridView.builder(
@@ -52,9 +54,9 @@ class _FavouritePageWidgetState extends State<FavouritePageWidget> {
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 20,
                   ),
-                  itemCount: favoriteList.length,
+                  itemCount: favoriteList.favoriteItems.length,
                   itemBuilder: (context, index) {
-                    final recipe = favoriteList[index];
+                    final recipe = favoriteList.favoriteItems[index];
                     return buildGridItem(
                       image: recipe.image,
                       text1: recipe.name,
@@ -77,6 +79,7 @@ class _FavouritePageWidgetState extends State<FavouritePageWidget> {
     required int index,
     required recipeModel recipe,
   }) {
+    final prv = Provider.of<DbProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(10.10),
       child: Container(
@@ -132,7 +135,8 @@ class _FavouritePageWidgetState extends State<FavouritePageWidget> {
                 right: 5,
                 child: IconButton(
                   onPressed: () {
-                    deleteFromFavourite(index);
+                    prv.deleteFromFavourite(index, context);
+                    print('object');
                   },
                   icon: const Icon(
                     Icons.favorite,

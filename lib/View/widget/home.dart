@@ -1,13 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:recipe_plates_provider/Services/services.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/delete_snakbar.dart';
 import 'package:recipe_plates_provider/View/widget/edit_page.dart';
 import 'package:recipe_plates_provider/View/widget/home_decorate.dart';
 import 'package:recipe_plates_provider/View/widget/sidebar_drawer.dart';
-
+import 'package:recipe_plates_provider/controller/db_provider.dart';
+import 'package:recipe_plates_provider/controller/home_provider.dart';
 
 class HomePageWidget extends StatefulWidget {
   final String userName;
@@ -25,20 +26,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   void initState() {
     super.initState();
-    getAllRecipiesByList();
-    displayedRecipes = recipeNotifier.value;
+    final getHomeProvider = Provider.of<DbProvider>(context, listen: false);
+    final homescreenprovider =
+        Provider.of<HomeScreenProvider>(context, listen: false);
+    getHomeProvider.getAllProvideByRecepe();
+    homescreenprovider.int(getHomeProvider.recipeNotifier);
     usernameController.dispose();
   }
 
-  void editRecipe(int index, recipeModel updatedRecipe) {
-    setState(() {
-      displayedRecipes[index] = updatedRecipe;
-    });
-  }
-
   void filterRecipes(String query) {
+    final getHomeProvider = Provider.of<DbProvider>(context, listen: false);
     setState(() {
-      displayedRecipes = recipeNotifier.value
+      displayedRecipes = getHomeProvider.recipeNotifier
           .where((recipe) =>
               recipe.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
@@ -62,6 +61,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<DbProvider>(context, listen: false).getAllProvideByRecepe();
+    final home = Provider.of<HomeScreenProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         key: GlobalKey<ScaffoldState>(),
@@ -108,10 +109,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: ValueListenableBuilder(
-                  valueListenable: recipeNotifier,
-                  builder: (BuildContext ctx, List<recipeModel> recipeList,
-                      Widget? child) {
+                child: Consumer<DbProvider>(
+                  builder: (context, value, child) {
                     if (displayedRecipes.isEmpty) {
                       return SizedBox(
                         height: 500,
@@ -138,7 +137,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         if (recipeDatas.image != null) {
                           recipeImage = File(recipeDatas.image!);
                         }
-
                         return buildGridList(
                           context,
                           image: recipeImage,
@@ -165,7 +163,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               );
 
                               if (result != null && result is recipeModel) {
-                                editRecipe(index, result);
+                                home.edit(index, result);
                               }
                             },
                             icon: const Icon(
@@ -183,7 +181,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             ),
                           ),
                           addToFavorite: () {
-                            addToFavourite(recipeDatas);
+                            value.addToFavourite(recipeDatas, context);
                           },
                           onDelete: () {},
                         );

@@ -29,7 +29,7 @@ class AddScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void img(file) {
+  void imageProvider(file) {
     if (file != null) {
       image = File(file.path);
     }

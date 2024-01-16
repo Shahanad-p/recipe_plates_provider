@@ -1,9 +1,9 @@
 // ignore_for_file: use_key_in_widget_constructors
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:recipe_plates_provider/Services/services.dart';
-import 'package:recipe_plates_provider/Model/model.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/View/widget/menu.dart';
+import 'package:recipe_plates_provider/controller/db_provider.dart';
 
 class FastfoodPage extends StatelessWidget {
   const FastfoodPage({Key? key});
@@ -26,11 +26,10 @@ class FastfoodPage extends StatelessWidget {
           centerTitle: true,
           iconTheme: const IconThemeData(color: Colors.black),
         ),
-        body: ValueListenableBuilder(
-          valueListenable: recipeNotifier,
-          builder:
-              (BuildContext ctx, List<recipeModel> recipeList, Widget? child) {
-            final filteredFastfoodList = recipeList
+        body: Consumer<DbProvider>(
+          // valueListenable: recipeNotifier,
+          builder: (BuildContext ctx, recipeList, child) {
+            final filteredFastfoodList = recipeList.recipeNotifier
                 .where((food) => food.category.toLowerCase() == 'fastfood')
                 .toList();
 
