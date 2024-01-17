@@ -9,6 +9,7 @@ import 'package:recipe_plates_provider/Controller/add_provider.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
 import 'package:recipe_plates_provider/Controller/home_provider.dart';
 import 'package:recipe_plates_provider/controller/bottom_provider.dart';
+import 'package:recipe_plates_provider/controller/edit_provider.dart';
 
 const save_key_name = 'UserLoggedIn';
 Future<void> main() async {
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => HomeScreenProvider()),
         ChangeNotifierProvider(create: (context) => DbProvider()),
         ChangeNotifierProvider(create: (context) => BottomProvider()),
+        ChangeNotifierProvider(create: (context) => EditProvider()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

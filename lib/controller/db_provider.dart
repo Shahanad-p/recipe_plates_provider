@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
-import 'package:recipe_plates_provider/Model/Services/services.dart';
+import 'package:recipe_plates_provider/Services/services.dart';
 
 class DbProvider extends ChangeNotifier {
   List<recipeModel> displayedRecipes = [];

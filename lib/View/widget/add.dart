@@ -7,7 +7,7 @@ import 'package:recipe_plates_provider/Controller/add_provider.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
 class AddPageWidget extends StatelessWidget {
-  const AddPageWidget({Key? key}) : super(key: key);
+  const AddPageWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

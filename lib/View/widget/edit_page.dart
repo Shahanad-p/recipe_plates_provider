@@ -3,29 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
+import 'package:recipe_plates_provider/Model/model.dart';
+import 'package:recipe_plates_provider/controller/edit_provider.dart';
 
-final _imagePicker = ImagePicker();
-final nameController = TextEditingController();
-final categoryController = TextEditingController();
-final descriptionController = TextEditingController();
-final ingredientsController = TextEditingController();
-final costController = TextEditingController();
-String? image;
-String selectCategory = 'Beverages';
-final List<String> _categoryList = [
-  'Beverages',
-  'Fastfood',
-  'Salads',
-  'Desserts',
-  'Healthy',
-  'Grilled',
-  'Snacks',
-  'Soup'
-];
-
-class EditPageWidget extends StatefulWidget {
+class EditPageWidget extends StatelessWidget {
   final String name;
   final String category;
   final String description;
@@ -46,26 +28,18 @@ class EditPageWidget extends StatefulWidget {
   });
 
   @override
-  State<EditPageWidget> createState() => _EditPageWidgetState();
-}
-
-class _EditPageWidgetState extends State<EditPageWidget> {
-  @override
-  void initState() {
+  Widget build(BuildContext context) {
+    final editProvider = Provider.of<EditProvider>(context, listen: false);
     final getProvider = Provider.of<DbProvider>(context, listen: false);
-    super.initState();
     getProvider.getAllProvideByRecepe();
 
-    nameController.text = widget.name;
-    categoryController.text = widget.category;
-    descriptionController.text = widget.description;
-    ingredientsController.text = widget.ingredients;
-    costController.text = widget.cost;
-    image = widget.image != '' ? widget.image : null;
-  }
+    editProvider.nameController.text = name;
+    editProvider.categoryController.text = category;
+    editProvider.descriptionController.text = description;
+    editProvider.ingredientsController.text = ingredients;
+    editProvider.costController.text = cost;
+    image = image != '' ? image : null;
 
-  @override
-  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -87,19 +61,16 @@ class _EditPageWidgetState extends State<EditPageWidget> {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      _imagePicker
+                      editProvider.imagePicker
                           .pickImage(
                         source: ImageSource.gallery,
                         imageQuality: 10,
                       )
                           .then((returnImage) {
                         if (returnImage != null) {
-                          setState(() {
-                            image = returnImage.path;
-                          });
+                          image = returnImage.path;
                         }
                       });
-                      setState(() {});
                     },
                     child: image != null
                         ? ClipRRect(
@@ -125,30 +96,30 @@ class _EditPageWidgetState extends State<EditPageWidget> {
                   Column(
                     children: [
                       buildTextFormField(
-                        nameController,
+                        editProvider.nameController,
                         'Name',
                         'Edit recipe name',
                         80.10,
                       ),
                       const SizedBox(height: 10),
-                      buildCategoryDropdown(),
+                      buildCategoryDropdown(context),
                       const SizedBox(height: 10),
                       buildTextFormField(
-                        descriptionController,
+                        editProvider.descriptionController,
                         'Description',
                         'Edit recipe description',
                         80.10,
                       ),
                       const SizedBox(height: 10),
                       buildTextFormField(
-                        ingredientsController,
+                        editProvider.ingredientsController,
                         'Ingredients',
                         'Edit recipe ingredients',
                         80.10,
                       ),
                       const SizedBox(height: 10),
                       buildTextFormField(
-                        costController,
+                        editProvider.costController,
                         'Total cost',
                         'Edit recipe cost',
                         80.10,
@@ -210,11 +181,12 @@ class _EditPageWidgetState extends State<EditPageWidget> {
     );
   }
 
-  Widget buildCategoryDropdown() {
+  Widget buildCategoryDropdown(context) {
+    final editProvider = Provider.of<EditProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DropdownButtonFormField<String>(
-        value: selectCategory,
+        value: editProvider.selectCategory,
         itemHeight: 50.0,
         decoration: const InputDecoration(
           border: OutlineInputBorder(
@@ -226,7 +198,7 @@ class _EditPageWidgetState extends State<EditPageWidget> {
           labelText: 'Categories',
           contentPadding: EdgeInsets.only(left: 25),
         ),
-        items: _categoryList.map((String value) {
+        items: editProvider.categoryList.map((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value),
@@ -234,9 +206,7 @@ class _EditPageWidgetState extends State<EditPageWidget> {
         }).toList(),
         onChanged: (String? value) {
           if (value != null) {
-            setState(() {
-              selectCategory = value;
-            });
+            editProvider.selectCategory = value;
           }
         },
         validator: (value) {
@@ -250,12 +220,13 @@ class _EditPageWidgetState extends State<EditPageWidget> {
   }
 
   Future<void> recipeUpdate(BuildContext context) async {
+    final editProvider = Provider.of<EditProvider>(context, listen: false);
     final updateProviderDb = Provider.of<DbProvider>(context, listen: false);
-    final name = nameController.text.trim();
-    final category = selectCategory.trim();
-    final description = descriptionController.text.trim();
-    final ingredients = ingredientsController.text.trim();
-    final cost = costController.text.trim();
+    final name = editProvider.nameController.text.trim();
+    final category = editProvider.selectCategory.trim();
+    final description = editProvider.descriptionController.text.trim();
+    final ingredients = editProvider.ingredientsController.text.trim();
+    final cost = editProvider.costController.text.trim();
 
     if (name.isEmpty ||
         category.isEmpty ||
@@ -274,7 +245,7 @@ class _EditPageWidgetState extends State<EditPageWidget> {
       cost: cost,
       image: image,
     );
-    updateProviderDb.updateProviderByReceipe(updatedRecipe, widget.index);
+    updateProviderDb.updateProviderByReceipe(updatedRecipe, index);
     Navigator.of(context).pop(updatedRecipe);
   }
 }

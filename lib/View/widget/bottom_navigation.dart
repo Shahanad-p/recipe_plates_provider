@@ -1,44 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/View/widget/add.dart';
 import 'package:recipe_plates_provider/View/widget/category_page.dart';
 import 'package:recipe_plates_provider/View/widget/favorite_page.dart';
 import 'package:recipe_plates_provider/View/widget/home.dart';
 import 'package:recipe_plates_provider/View/widget/pie_chart.dart';
+import 'package:recipe_plates_provider/controller/bottom_provider.dart';
 
+class BottomNavBarWidget extends StatelessWidget {
+  const BottomNavBarWidget({super.key, required this.userName});
 
-class BottomNavBarWidget extends StatefulWidget {
-  const BottomNavBarWidget({
-    super.key,
-    required String userName,
-  });
+  final String userName;
 
-  @override
-  State<BottomNavBarWidget> createState() => _BottomNavBarWidgetState();
-}
+  List<Widget> get pages => [
+        const HomePageWidget(userName: ''),
+        const FavouritePageWidget(),
+        const CategoryPageWidget(),
+        PieChartPageWidget(),
+      ];
 
-class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
-  List pages = [
-    const HomePageWidget(
-      userName: '',
-    ),
-    const FavouritePageWidget(),
-    const CategoryPageWidget(),
-    PieChartPageWidget(),
-  ];
-  int currentIndexValue = 0;
-
-  void onTap(int index) {
-    setState(() {
-      currentIndexValue = index;
-    });
+  void onTap(BuildContext context, int index) {
+    Provider.of<BottomProvider>(context, listen: false).bottomNav(index);
   }
 
   @override
   Widget build(BuildContext context) {
+    final bttmProvider = Provider.of<BottomProvider>(context);
     return SafeArea(
       child: Scaffold(
-        body: pages[currentIndexValue],
+        body: pages[bttmProvider.currentIndexValue],
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(22),
           child: ClipRRect(
@@ -46,9 +37,9 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
             child: BottomNavigationBar(
               unselectedFontSize: 0,
               type: BottomNavigationBarType.fixed,
-              onTap: onTap,
+              onTap: (index) => bttmProvider.bottomNav(index),
               backgroundColor: const Color.fromARGB(24, 7, 100, 95),
-              currentIndex: currentIndexValue,
+              currentIndex: bttmProvider.currentIndexValue,
               selectedItemColor: const Color.fromARGB(255, 9, 49, 83),
               unselectedItemColor: const Color.fromARGB(255, 145, 176, 239),
               showSelectedLabels: true,

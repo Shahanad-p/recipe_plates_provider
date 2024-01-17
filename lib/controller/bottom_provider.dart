@@ -1,23 +1,10 @@
-// import 'package:flutter/material.dart';
-// import 'package:recipe_plates/view/widget/category_page.dart';
-// import 'package:recipe_plates/view/widget/favorite_page.dart';
-// import 'package:recipe_plates/view/widget/home.dart';
-// import 'package:recipe_plates/view/widget/pie_chart.dart';
-
 import 'package:flutter/material.dart';
 
 class BottomProvider extends ChangeNotifier {
-//   List pages = [
-//     const HomePageWidget(userName: ''),
-//     const FavouritePageWidget(),
-//     const CategoryPageWidget(),
-//     PieChartPageWidget(),
-//   ];
-
-//   int currentIndexValue = 0;
-
-//   void onTapPro(int index) {
-//     currentIndexValue = index;
-//     notifyListeners();
-//   }
+  int currentIndexValue = 0;
+  void bottomNav(int index) {
+    // print('Changing index to: $index');
+    currentIndexValue = index;
+    notifyListeners();
+  }
 }

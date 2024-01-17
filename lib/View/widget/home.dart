@@ -12,14 +12,17 @@ import 'package:recipe_plates_provider/Controller/db_provider.dart';
 class HomePageWidget extends StatelessWidget {
   final String userName;
 
+  // ignore: use_super_parameters
   const HomePageWidget({Key? key, required this.userName}) : super(key: key);
 
   void filterRecipes(BuildContext context, String query) {
     final getHomeProvider = Provider.of<DbProvider>(context, listen: false);
+    // ignore: unused_local_variable
     final displayedRecipes = getHomeProvider.recipeNotifier
         .where(
             (recipe) => recipe.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
+    // getHomeProvider.
     // Perform logic with displayedRecipes as needed
   }
 

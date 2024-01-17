@@ -9,8 +9,9 @@ class HomeScreenProvider extends ChangeNotifier {
     displayedRecipes = recipeNotifier;
     notifyListeners();
   }
+
   void edit(index, updatedRecipe) {
-     displayedRecipes[index] = updatedRecipe;
+    displayedRecipes[index] = updatedRecipe;
     notifyListeners();
   }
 }

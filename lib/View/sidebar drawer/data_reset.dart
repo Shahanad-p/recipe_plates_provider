@@ -5,7 +5,6 @@ import 'package:lottie/lottie.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/splash_screen.dart';
 
-
 Future<void> resetRecipe(BuildContext context) async {
   bool confirmResetDatas = await showDialog(
     context: context,
@@ -52,7 +51,6 @@ Future<void> resetRecipe(BuildContext context) async {
   if (confirmResetDatas == true) {
     final clearAllRecipe = await Hive.openBox<recipeModel>('recipe_db');
     clearAllRecipe.clear();
-    // favoriteItems.clear();
 
     Navigator.pushReplacement(
       context,
