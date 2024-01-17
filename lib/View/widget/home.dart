@@ -14,7 +14,6 @@ class HomePageWidget extends StatelessWidget {
   final String userName;
 
   const HomePageWidget({super.key, required this.userName});
-
   void deleteRecipies(BuildContext context, int index) {
     showDeleteConfirmationDialog(context, index).then((confirmed) {
       if (confirmed != null && confirmed) {
@@ -32,6 +31,8 @@ class HomePageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final getProvider = Provider.of<DbProvider>(context, listen: false);
+    getProvider.getAllProvideByRecepe();
     return SafeArea(
       child: Scaffold(
         key: GlobalKey<ScaffoldState>(),
@@ -119,7 +120,7 @@ class HomePageWidget extends StatelessWidget {
                           cost: recipeDatas.cost,
                           editIcon: IconButton(
                             onPressed: () async {
-                              final result = await Navigator.of(context).push(
+                              await Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => EditPageWidget(
                                     index: index,
@@ -132,30 +133,46 @@ class HomePageWidget extends StatelessWidget {
                                   ),
                                 ),
                               );
-
-                              if (result != null && result is recipeModel) {
-                                // Logic for editing
-                              }
+                              //   final result = await Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => EditPageWidget(
+                              //       index: index,
+                              //       name: recipeDatas.name,
+                              //       category: recipeDatas.category,
+                              //       description: recipeDatas.description,
+                              //       ingredients: recipeDatas.ingredients,
+                              //       cost: recipeDatas.cost,
+                              //       image: recipeDatas.image,
+                              //     ),
+                              //   ),
+                              // );
+                              // if (result != null && result is recipeModel) {
+                              //   // Logic for editing
+                              // }
                             },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Color.fromARGB(255, 34, 123, 37),
-                              
+                            icon: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.edit,
+                                color: Color.fromARGB(255, 34, 123, 37),
+                              ),
                             ),
                           ),
                           deleteIcon: IconButton(
                             onPressed: () {
                               deleteRecipies(context, index);
                             },
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Color.fromARGB(255, 148, 37, 29),
+                            icon: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.delete,
+                                color: Color.fromARGB(255, 148, 37, 29),
+                              ),
                             ),
                           ),
                           addToFavorite: () {
                             value.addToFavourite(recipeDatas, context);
                           },
-                          onDelete: () {},
                         );
                       },
                     );

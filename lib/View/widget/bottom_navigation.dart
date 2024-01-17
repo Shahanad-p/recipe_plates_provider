@@ -10,19 +10,14 @@ import 'package:recipe_plates_provider/controller/bottom_provider.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
   const BottomNavBarWidget({super.key, required this.userName});
-
   final String userName;
 
-  List<Widget> get pages => [
+  List get pages => [
         const HomePageWidget(userName: ''),
         const FavouritePageWidget(),
         const CategoryPageWidget(),
         PieChartPageWidget(),
       ];
-
-  void onTap(BuildContext context, int index) {
-    Provider.of<BottomProvider>(context, listen: false).bottomNav(index);
-  }
 
   @override
   Widget build(BuildContext context) {

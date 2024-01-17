@@ -53,7 +53,6 @@ class PieChartPageWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 Consumer<DbProvider>(
-                  // valueListenable: recipeNotifier,
                   builder: (context, value, child) {
                     double totalCost =
                         value.calculateTotalCost(value.recipeNotifier);

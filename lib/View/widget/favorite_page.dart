@@ -1,4 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,24 +5,13 @@ import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/menu.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
-class FavouritePageWidget extends StatefulWidget {
+class FavouritePageWidget extends StatelessWidget {
   const FavouritePageWidget({super.key});
 
   @override
-  _FavouritePageWidgetState createState() => _FavouritePageWidgetState();
-}
-
-class _FavouritePageWidgetState extends State<FavouritePageWidget> {
-  @override
-  void initState() {
-    final getFvriteProvider = Provider.of<DbProvider>(context, listen: false);
-    super.initState();
-    getFvriteProvider.getAllFavouriteProviderByRecipes();
-    setState(() {});
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final prov = Provider.of<DbProvider>(context, listen: false);
+    prov.getAllFavouriteProviderByRecipes();
     return WillPopScope(
       onWillPop: () async => false,
       child: SafeArea(
@@ -60,6 +48,7 @@ class _FavouritePageWidgetState extends State<FavouritePageWidget> {
                       text1: recipe.name,
                       index: index,
                       recipe: recipe,
+                      context: context,
                     );
                   },
                 ),
@@ -76,6 +65,7 @@ class _FavouritePageWidgetState extends State<FavouritePageWidget> {
     required String text1,
     required int index,
     required recipeModel recipe,
+    required BuildContext context,
   }) {
     final deleteFvrteProvider = Provider.of<DbProvider>(context, listen: false);
     return Padding(
@@ -106,14 +96,13 @@ class _FavouritePageWidgetState extends State<FavouritePageWidget> {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => MenuOpeningPage(
-                    name: recipe.name,
-                    category: recipe.category,
-                    description: recipe.description,
-                    ingredients: recipe.ingredients,
-                    cost: recipe.cost,
-                    selectedImagePath: File(
-                      recipe.image!,
-                    ))));
+                      name: recipe.name,
+                      category: recipe.category,
+                      description: recipe.description,
+                      ingredients: recipe.ingredients,
+                      cost: recipe.cost,
+                      selectedImagePath: File(recipe.image!),
+                    )));
           },
           child: Stack(
             alignment: Alignment.topRight,
@@ -135,9 +124,12 @@ class _FavouritePageWidgetState extends State<FavouritePageWidget> {
                   onPressed: () {
                     deleteFvrteProvider.deleteFromFavourite(index, context);
                   },
-                  icon: const Icon(
-                    Icons.favorite,
-                    color: Color.fromARGB(255, 20, 60, 130),
+                  icon: const CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.favorite,
+                      color: Color.fromARGB(255, 20, 60, 130),
+                    ),
                   ),
                 ),
               ),

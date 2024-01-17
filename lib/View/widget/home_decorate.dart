@@ -14,7 +14,6 @@ Widget buildGridList(
   IconButton? deleteIcon,
   IconButton? editIcon,
   required VoidCallback addToFavorite,
-  required VoidCallback onDelete,
 }) {
   double cardWidth = MediaQuery.of(context).size.width *
       (MediaQuery.of(context).orientation == Orientation.portrait ? 0.4 : 0.3);
@@ -77,9 +76,12 @@ Widget buildGridList(
                   padding: const EdgeInsets.all(8.0),
                   child: IconButton(
                     onPressed: addToFavorite,
-                    icon: const Icon(
-                      Icons.favorite,
-                      color: Color.fromARGB(255, 20, 60, 130),
+                    icon: const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.favorite,
+                        color: Color.fromARGB(255, 20, 60, 130),
+                      ),
                     ),
                   ),
                 ),
