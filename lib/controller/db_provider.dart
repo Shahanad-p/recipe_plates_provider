@@ -3,7 +3,7 @@ import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/Services/services.dart';
 
 class DbProvider extends ChangeNotifier {
-  List<recipeModel> displayedRecipes = [];
+  List<recipeModel> filtered = [];
   List<recipeModel> recipeNotifier = [];
   List<recipeModel> favoriteItems = [];
   List<recipeModel> favoriteItemsNotifier = [];
@@ -54,6 +54,11 @@ class DbProvider extends ChangeNotifier {
   Future<void> deleteFromFavourite(int index, context) async {
     await dbservice.deleteFromFavourite(index);
     favoriteItems.removeAt(index);
+    notifyListeners();
+  }
+
+  void filteredRecipes(List<recipeModel> value) async {
+    filtered = value;
     notifyListeners();
   }
 

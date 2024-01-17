@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:recipe_plates_provider/Controller/home_provider.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/delete_snakbar.dart';
 import 'package:recipe_plates_provider/View/widget/edit_page.dart';
@@ -12,19 +13,7 @@ import 'package:recipe_plates_provider/Controller/db_provider.dart';
 class HomePageWidget extends StatelessWidget {
   final String userName;
 
-  // ignore: use_super_parameters
-  const HomePageWidget({Key? key, required this.userName}) : super(key: key);
-
-  void filterRecipes(BuildContext context, String query) {
-    final getHomeProvider = Provider.of<DbProvider>(context, listen: false);
-    // ignore: unused_local_variable
-    final displayedRecipes = getHomeProvider.recipeNotifier
-        .where(
-            (recipe) => recipe.name.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    // getHomeProvider.
-    // Perform logic with displayedRecipes as needed
-  }
+  const HomePageWidget({super.key, required this.userName});
 
   void deleteRecipies(BuildContext context, int index) {
     showDeleteConfirmationDialog(context, index).then((confirmed) {
@@ -65,22 +54,25 @@ class HomePageWidget extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
-              child: TextField(
-                onChanged: (query) => filterRecipes(context, query),
-                decoration: InputDecoration(
-                  label: const Text('Search'),
-                  hintText: 'Search your recipes here..!',
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.1,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  suffixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.clear),
-                  ),
-                ),
+              child: Consumer<HomeScreenProvider>(
+                builder: (context, searchProvider, child) {
+                  return TextField(
+                    onChanged: (value) {
+                      searchProvider.search = value;
+                      searchProvider.searchResult(context);
+                    },
+                    decoration: InputDecoration(
+                      label: const Text('Search'),
+                      hintText: 'Search your recipes here..!',
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.1,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             Expanded(
@@ -148,6 +140,7 @@ class HomePageWidget extends StatelessWidget {
                             icon: const Icon(
                               Icons.edit,
                               color: Color.fromARGB(255, 34, 123, 37),
+                              
                             ),
                           ),
                           deleteIcon: IconButton(

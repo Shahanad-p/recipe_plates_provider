@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipe_plates_provider/Model/model.dart';
 
 class EditProvider extends ChangeNotifier {
+  List<recipeModel> displayedRecipes = [];
   final imagePicker = ImagePicker();
   final nameController = TextEditingController();
   final categoryController = TextEditingController();
@@ -20,4 +22,8 @@ class EditProvider extends ChangeNotifier {
     'Snacks',
     'Soup'
   ];
+  void edit(index, updatedRecipe) {
+    displayedRecipes[index] = updatedRecipe;
+    notifyListeners();
+  }
 }
