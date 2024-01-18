@@ -49,7 +49,7 @@ Future<void> resetRecipe(BuildContext context) async {
   );
 
   if (confirmResetDatas == true) {
-    final clearAllRecipe = await Hive.openBox<recipeModel>('recipe_db');
+    final clearAllRecipe = await Hive.openBox<RecipeModel>('recipe_db');
     clearAllRecipe.clear();
 
     Navigator.pushReplacement(

@@ -16,8 +16,8 @@ const save_key_name = 'UserLoggedIn';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  if (!Hive.isAdapterRegistered(recipeModelAdapter().typeId)) {
-    Hive.registerAdapter(recipeModelAdapter());
+  if (!Hive.isAdapterRegistered(RcipeModelAdapter().typeId)) {
+    Hive.registerAdapter(RcipeModelAdapter());
   }
 
   runApp(const MyApp());

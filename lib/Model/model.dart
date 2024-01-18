@@ -1,10 +1,8 @@
-// ignore_for_file: camel_case_types
-
 import 'package:hive/hive.dart';
 part 'model.g.dart';
 
 @HiveType(typeId: 1)
-class recipeModel {
+class RecipeModel {
   @HiveField(0)
   int? index;
 
@@ -28,7 +26,7 @@ class recipeModel {
 
   bool isFavorite;
 
-  recipeModel(
+  RecipeModel(
       {required this.name,
       required this.category,
       required this.description,

@@ -254,7 +254,7 @@ class AddPageWidget extends StatelessWidget {
       return;
     }
 
-    final recipe = recipeModel(
+    final recipe = RecipeModel(
       name: name,
       category: category,
       description: description,

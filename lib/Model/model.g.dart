@@ -8,17 +8,17 @@ part of 'model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class recipeModelAdapter extends TypeAdapter<recipeModel> {
+class RcipeModelAdapter extends TypeAdapter<RecipeModel> {
   @override
   final int typeId = 1;
 
   @override
-  recipeModel read(BinaryReader reader) {
+  RecipeModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return recipeModel(
+    return RecipeModel(
       name: fields[1] as String,
       category: fields[2] as String,
       description: fields[3] as String,
@@ -30,7 +30,7 @@ class recipeModelAdapter extends TypeAdapter<recipeModel> {
   }
 
   @override
-  void write(BinaryWriter writer, recipeModel obj) {
+  void write(BinaryWriter writer, RecipeModel obj) {
     writer
       ..writeByte(7)
       ..writeByte(0)
@@ -55,7 +55,7 @@ class recipeModelAdapter extends TypeAdapter<recipeModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is recipeModelAdapter &&
+      other is RcipeModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

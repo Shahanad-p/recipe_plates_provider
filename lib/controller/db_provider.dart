@@ -4,12 +4,12 @@ import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/Services/services.dart';
 
 class DbProvider extends ChangeNotifier {
-  List<recipeModel> result = [];
-  List<recipeModel> foundrecipe = [];
-  List<recipeModel> recipeList = [];
-  List<recipeModel> recipeNotifier = [];
-  List<recipeModel> favoriteItems = [];
-  List<recipeModel> favoriteItemsNotifier = [];
+  List<RecipeModel> result = [];
+  List<RecipeModel> foundrecipe = [];
+  List<RecipeModel> recipeList = [];
+  List<RecipeModel> recipeNotifier = [];
+  List<RecipeModel> favoriteItems = [];
+  List<RecipeModel> favoriteItemsNotifier = [];
   DbServices dbservice = DbServices();
 
   getAllProvideByRecepe() async {
@@ -17,7 +17,7 @@ class DbProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  addProviderByReceipe(recipeModel value) async {
+  addProviderByReceipe(RecipeModel value) async {
     recipeNotifier = await dbservice.getAllRecipiesByList();
     await dbservice.addRecipies(value);
     getAllProvideByRecepe();
@@ -28,8 +28,8 @@ class DbProvider extends ChangeNotifier {
     getAllProvideByRecepe();
   }
 
-  updateProviderByReceipe(recipeModel value, index) async {
-    final recipedb = await Hive.openBox<recipeModel>('recipe_db');
+  updateProviderByReceipe(RecipeModel value, index) async {
+    final recipedb = await Hive.openBox<RecipeModel>('recipe_db');
     recipeNotifier.clear();
     recipeNotifier.addAll(recipedb.values);
     recipedb.putAt(index, value);
@@ -48,7 +48,7 @@ class DbProvider extends ChangeNotifier {
     favoriteItemsNotifier = favoriteItems;
   }
 
-  addToFavourite(recipeModel recipe, context) async {
+  addToFavourite(RecipeModel recipe, context) async {
     await dbservice.addToFavourite(recipe);
     bool isAlreadyInFavorites = favoriteItems.contains(recipe);
     if (!isAlreadyInFavorites) {
@@ -76,7 +76,7 @@ class DbProvider extends ChangeNotifier {
       result = recipeList;
     } else {
       result = recipeList
-          .where((recipeModel recipe) =>
+          .where((RecipeModel recipe) =>
               recipe.name.toLowerCase().contains(searchitem.toLowerCase()))
           .toList();
     }
@@ -86,10 +86,10 @@ class DbProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  calculateTotalCost(List<recipeModel> recipes) {
+  calculateTotalCost(List<RecipeModel> recipes) {
     double totalCost = 0;
     for (int i = 0; i < recipes.length; i++) {
-      recipeModel recipe = recipes[i];
+      RecipeModel recipe = recipes[i];
       totalCost += double.parse(recipe.cost);
     }
     return totalCost;

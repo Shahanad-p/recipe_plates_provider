@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 
 class EditProvider extends ChangeNotifier {
-  List<recipeModel> displayedRecipes = [];
+  List<RecipeModel> displayedRecipes = [];
   final imagePicker = ImagePicker();
   final nameController = TextEditingController();
   final categoryController = TextEditingController();
@@ -27,6 +27,4 @@ class EditProvider extends ChangeNotifier {
     image = imagePath;
     notifyListeners();
   }
-
-  
 }

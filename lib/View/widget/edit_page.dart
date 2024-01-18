@@ -242,7 +242,7 @@ class _EditPageWidgetState extends State<EditPageWidget> {
       return;
     }
 
-    final updatedRecipe = recipeModel(
+    final updatedRecipe = RecipeModel(
       name: name,
       category: category,
       description: description,

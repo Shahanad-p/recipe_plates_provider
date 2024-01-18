@@ -64,7 +64,7 @@ class FavouritePageWidget extends StatelessWidget {
     required String? image,
     required String text1,
     required int index,
-    required recipeModel recipe,
+    required RecipeModel recipe,
     required BuildContext context,
   }) {
     final deleteFvrteProvider = Provider.of<DbProvider>(context, listen: false);

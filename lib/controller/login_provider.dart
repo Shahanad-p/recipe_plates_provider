@@ -21,6 +21,13 @@ class LoginProvider extends ChangeNotifier {
           ),
         ),
       );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('You are logged in..!'),
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.green,
+        ),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -47,9 +54,13 @@ class LoginProvider extends ChangeNotifier {
     if (userLoggedIn == null || userLoggedIn == false) {
       goToLogin(context);
     } else {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const BottomNavBarWidget(userName: '')));
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const BottomNavBarWidget(userName: ''),
+        ),
+      );
     }
+
     notifyListeners();
   }
 
@@ -59,6 +70,7 @@ class LoginProvider extends ChangeNotifier {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const LoginPageWidget()),
         (route) => false);
+
     notifyListeners();
   }
 }
