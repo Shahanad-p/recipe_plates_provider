@@ -17,10 +17,10 @@ class DbServices {
     recipedb.deleteAt(index);
   }
 
-  Future<void> updateRecipe(int index, recipeModel newRecipe) async {
-    final recipeDB = await Hive.openBox<recipeModel>('recipies_db');
-    recipeDB.putAt(index, newRecipe);
-  }
+  // Future<void> updateRecipe(int index, recipeModel newRecipe) async {
+  //   final recipeDB = await Hive.openBox<recipeModel>('recipies_db');
+  //   recipeDB.putAt(index, newRecipe);
+  // }
 
   Future getAllFavouriteRecipes() async {
     final favoriteBox = await Hive.openBox<recipeModel>('favorite_db');

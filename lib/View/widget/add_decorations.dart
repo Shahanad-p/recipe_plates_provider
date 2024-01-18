@@ -36,7 +36,7 @@ Widget buildTextFormField(TextEditingController controller, String label,
 GestureDetector buildImageSelectionOption(
   String iconPath,
   String label,
-  Future<void> Function() onTap,
+  Future Function() onTap,
 ) {
   return GestureDetector(
     onTap: () {

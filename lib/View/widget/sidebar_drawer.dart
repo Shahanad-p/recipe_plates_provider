@@ -1,12 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/View/sidebar%20drawer/about_page.dart';
 import 'package:recipe_plates_provider/View/sidebar%20drawer/data_reset.dart';
 import 'package:recipe_plates_provider/View/sidebar%20drawer/setting_page.dart';
 import 'package:recipe_plates_provider/View/sidebar%20drawer/terms_condions_page.dart';
-import 'package:recipe_plates_provider/View/widget/login_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:recipe_plates_provider/controller/login_provider.dart';
 
 class SideBarDrawer extends StatelessWidget {
   const SideBarDrawer({super.key});
@@ -97,15 +97,8 @@ class SideBarDrawer extends StatelessWidget {
     );
   }
 
-  signOut(BuildContext context) async {
-    final sharedPref = await SharedPreferences.getInstance();
-    await sharedPref.clear();
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => LoginPageWidget()),
-        (route) => false);
-  }
-
   void selectedItem(BuildContext context, int index) {
+    final logoutProvider = Provider.of<LoginProvider>(context, listen: false);
     switch (index) {
       case 0:
         Navigator.of(context).push(
@@ -128,7 +121,7 @@ class SideBarDrawer extends StatelessWidget {
         resetRecipe(context);
         break;
       case 4:
-        signOut(context);
+        logoutProvider.signOut(context);
         break;
     }
   }

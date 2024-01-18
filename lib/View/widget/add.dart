@@ -40,7 +40,7 @@ class AddPageWidget extends StatelessWidget {
                     providerData.nameController,
                     'Name',
                     'Enter your recipe name',
-                    (value) => _validateField(value, 'Name is required'),
+                    (value) => validateField(value, 'Name is required'),
                   ),
                   const SizedBox(height: 10),
                   _buildCategoryDropdown(context),
@@ -49,22 +49,21 @@ class AddPageWidget extends StatelessWidget {
                     providerData.descriptionController,
                     'Description',
                     'Enter your recipe description here',
-                    (value) => _validateField(value, 'Description is required'),
+                    (value) => validateField(value, 'Description is required'),
                   ),
                   const SizedBox(height: 10),
                   _buildTextFormField(
                     providerData.ingredientsController,
                     'Ingredients',
                     'Enter your recipe ingredients',
-                    (value) =>
-                        _validateField(value, 'Ingredients are required'),
+                    (value) => validateField(value, 'Ingredients are required'),
                   ),
                   const SizedBox(height: 10),
                   _buildTextFormField(
                     providerData.costController,
                     'Total cost',
                     'Enter your recipe total cost',
-                    (value) => _validateField(value, 'Total cost is required'),
+                    (value) => validateField(value, 'Total cost is required'),
                     numericOnly: true,
                   ),
                   const SizedBox(height: 10),
@@ -144,7 +143,7 @@ class AddPageWidget extends StatelessWidget {
         onChanged: (String? value) {
           providerData.addProvider(value);
         },
-        validator: (value) => _validateField(value, 'Category is required'),
+        validator: (value) => validateField(value, 'Category is required'),
       ),
     );
   }
@@ -220,7 +219,7 @@ class AddPageWidget extends StatelessWidget {
 
   selectedImageFromGallery(BuildContext context) async {
     final providerData = Provider.of<AddScreenProvider>(context, listen: false);
-    _setImage(
+    setImage(
         context,
         await providerData.imagePicker
             .pickImage(source: ImageSource.gallery, imageQuality: 10));
@@ -228,13 +227,13 @@ class AddPageWidget extends StatelessWidget {
 
   selectedImageFromCamera(BuildContext context) async {
     final providerData = Provider.of<AddScreenProvider>(context, listen: false);
-    _setImage(
+    setImage(
         context,
         await providerData.imagePicker
             .pickImage(source: ImageSource.camera, imageQuality: 10));
   }
 
-  void _setImage(BuildContext context, XFile? file) {
+  void setImage(BuildContext context, XFile? file) {
     Provider.of<AddScreenProvider>(context, listen: false).imageProvider(file);
     Navigator.pop(context);
   }
@@ -283,6 +282,6 @@ class AddPageWidget extends StatelessWidget {
     );
   }
 
-  String? _validateField(String? value, String errorMessage) =>
+  String? validateField(String? value, String errorMessage) =>
       value?.isEmpty ?? true ? errorMessage : null;
 }

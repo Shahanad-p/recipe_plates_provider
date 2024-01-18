@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/Services/services.dart';
 
 class DbProvider extends ChangeNotifier {
-  List<recipeModel> filtered = [];
+  // String search = '';
+
   List<recipeModel> recipeNotifier = [];
   List<recipeModel> favoriteItems = [];
   List<recipeModel> favoriteItemsNotifier = [];
@@ -25,9 +27,17 @@ class DbProvider extends ChangeNotifier {
     getAllProvideByRecepe();
   }
 
-  Future updateProviderByReceipe(recipeModel newRecipe, index) async {
-    await dbservice.updateRecipe(index, newRecipe);
+  // Future updateProviderByReceipe(recipeModel newRecipe, index) async {
+  //   await dbservice.updateRecipe(index, newRecipe);
+  //   getAllProvideByRecepe();
+  // }
+  Future updateProviderByReceipe(recipeModel value, index) async {
+    final recipedb = await Hive.openBox<recipeModel>('recipe_db');
+    recipeNotifier.clear();
+    recipeNotifier.addAll(recipedb.values);
+    recipedb.putAt(index, value);
     getAllProvideByRecepe();
+    notifyListeners();
   }
 
   Future getAllFavouriteProviderByRecipes() async {
@@ -57,10 +67,15 @@ class DbProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void filteredRecipes(List<recipeModel> value) async {
-    filtered = value;
-    notifyListeners();
-  }
+  // void searchResult(context) {
+  //   final dbpro = Provider.of<DbProvider>(context, listen: false);
+  //   final filteredRecipies = dbpro.recipeNotifier
+  //       .where((recipeList) =>
+  //           recipeList.name.toLowerCase().contains(search.toLowerCase()))
+  //       .toList();
+  //   dbpro.filteredRecipes(filteredRecipies);
+  //   notifyListeners();
+  // }
 
   calculateTotalCost(List<recipeModel> recipes) {
     double totalCost = 0;
@@ -70,6 +85,4 @@ class DbProvider extends ChangeNotifier {
     }
     return totalCost;
   }
-
-
 }

@@ -2,35 +2,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_plates_provider/Controller/home_provider.dart';
-import 'package:recipe_plates_provider/Model/model.dart';
-import 'package:recipe_plates_provider/View/widget/delete_snakbar.dart';
 import 'package:recipe_plates_provider/View/widget/edit_page.dart';
 import 'package:recipe_plates_provider/View/widget/home_decorate.dart';
 import 'package:recipe_plates_provider/View/widget/sidebar_drawer.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
+import 'package:recipe_plates_provider/controller/snackbar_provider.dart';
 
 class HomePageWidget extends StatelessWidget {
   final String userName;
 
   const HomePageWidget({super.key, required this.userName});
-  void deleteRecipies(BuildContext context, int index) {
-    showDeleteConfirmationDialog(context, index).then((confirmed) {
-      if (confirmed != null && confirmed) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Recipe deleted successfully.!'),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-            duration: Duration(seconds: 1),
-          ),
-        );
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final snackBarPro = Provider.of<SnackBarProvider>(context, listen: false);
     final getProvider = Provider.of<DbProvider>(context, listen: false);
     getProvider.getAllProvideByRecepe();
     return SafeArea(
@@ -55,25 +40,21 @@ class HomePageWidget extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
-              child: Consumer<HomeScreenProvider>(
-                builder: (context, searchProvider, child) {
-                  return TextField(
-                    onChanged: (value) {
-                      searchProvider.search = value;
-                      searchProvider.searchResult(context);
-                    },
-                    decoration: InputDecoration(
-                      label: const Text('Search'),
-                      hintText: 'Search your recipes here..!',
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.1,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  );
-                },
+              child: TextField(
+                // onChanged: (value) {
+                //   searchProvider.search = value;
+                //   searchProvider.searchResult(context);
+                // },
+                decoration: InputDecoration(
+                  label: const Text('Search'),
+                  hintText: 'Search your recipes here..!',
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.1,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
               ),
             ),
             Expanded(
@@ -133,22 +114,6 @@ class HomePageWidget extends StatelessWidget {
                                   ),
                                 ),
                               );
-                              //   final result = await Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (context) => EditPageWidget(
-                              //       index: index,
-                              //       name: recipeDatas.name,
-                              //       category: recipeDatas.category,
-                              //       description: recipeDatas.description,
-                              //       ingredients: recipeDatas.ingredients,
-                              //       cost: recipeDatas.cost,
-                              //       image: recipeDatas.image,
-                              //     ),
-                              //   ),
-                              // );
-                              // if (result != null && result is recipeModel) {
-                              //   // Logic for editing
-                              // }
                             },
                             icon: const CircleAvatar(
                               backgroundColor: Colors.white,
@@ -160,7 +125,7 @@ class HomePageWidget extends StatelessWidget {
                           ),
                           deleteIcon: IconButton(
                             onPressed: () {
-                              deleteRecipies(context, index);
+                              snackBarPro.deleteRecipies(context, index);
                             },
                             icon: const CircleAvatar(
                               backgroundColor: Colors.white,

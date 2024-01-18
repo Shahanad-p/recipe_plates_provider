@@ -22,8 +22,11 @@ class EditProvider extends ChangeNotifier {
     'Snacks',
     'Soup'
   ];
-  void edit(index, updatedRecipe) {
-    displayedRecipes[index] = updatedRecipe;
+
+  void edit(imagePath) {
+    image = imagePath;
     notifyListeners();
   }
+
+  
 }

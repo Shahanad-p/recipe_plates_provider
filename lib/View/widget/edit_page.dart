@@ -7,7 +7,7 @@ import 'package:recipe_plates_provider/Controller/db_provider.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/controller/edit_provider.dart';
 
-class EditPageWidget extends StatelessWidget {
+class EditPageWidget extends StatefulWidget {
   final String name;
   final String category;
   final String description;
@@ -28,18 +28,28 @@ class EditPageWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final editProvider = Provider.of<EditProvider>(context, listen: false);
+  State<EditPageWidget> createState() => _EditPageWidgetState();
+}
+
+class _EditPageWidgetState extends State<EditPageWidget> {
+  @override
+  void initState() {
     final getProvider = Provider.of<DbProvider>(context, listen: false);
+    final editProvider = Provider.of<EditProvider>(context, listen: false);
+    super.initState();
     getProvider.getAllProvideByRecepe();
 
-    editProvider.nameController.text = name;
-    editProvider.categoryController.text = category;
-    editProvider.descriptionController.text = description;
-    editProvider.ingredientsController.text = ingredients;
-    editProvider.costController.text = cost;
-    image = image != '' ? image : null;
+    editProvider.nameController.text = widget.name;
+    editProvider.categoryController.text = widget.category;
+    editProvider.descriptionController.text = widget.description;
+    editProvider.ingredientsController.text = widget.ingredients;
+    editProvider.costController.text = widget.cost;
+    editProvider.image = widget.image != '' ? widget.image : null;
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    final editProvider = Provider.of<EditProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -55,42 +65,35 @@ class EditPageWidget extends StatelessWidget {
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.08, vertical: 20.08),
             child: Center(
               child: Column(
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      editProvider.imagePicker
-                          .pickImage(
+                      final returnImage =
+                          await editProvider.imagePicker.pickImage(
                         source: ImageSource.gallery,
                         imageQuality: 10,
-                      )
-                          .then((returnImage) {
-                        if (returnImage != null) {
-                          image = returnImage.path;
-                        }
-                      });
+                      );
+                      if (returnImage != null) {
+                        editProvider.edit(returnImage.path);
+                      }
                     },
-                    child: image != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.file(
-                              image != null ? File(image!) : File(''),
-                              height: 150,
-                              width: 220,
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
-                            child: Image.asset(
-                              'assets/restaurant-food-frame-with-rustic-wood-background-free-93.jpg',
-                              height: 150,
-                              width: 220,
-                              fit: BoxFit.fill,
-                            ),
+                    child: Consumer<EditProvider>(
+                      builder: (context, value, child) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(15.08),
+                          child: Image.file(
+                            value.image != null ? File(value.image!) : File(''),
+                            height: 150,
+                            width: 220,
+                            fit: BoxFit.fill,
                           ),
+                        );
+                      },
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Column(
@@ -102,7 +105,7 @@ class EditPageWidget extends StatelessWidget {
                         80.10,
                       ),
                       const SizedBox(height: 10),
-                      buildCategoryDropdown(context),
+                      buildCategoryDropdown(),
                       const SizedBox(height: 10),
                       buildTextFormField(
                         editProvider.descriptionController,
@@ -129,7 +132,7 @@ class EditPageWidget extends StatelessWidget {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.amber),
+                      backgroundColor: MaterialStateProperty.all(Colors.green),
                       padding: MaterialStateProperty.all(
                         const EdgeInsets.only(left: 35, right: 35),
                       ),
@@ -181,7 +184,7 @@ class EditPageWidget extends StatelessWidget {
     );
   }
 
-  Widget buildCategoryDropdown(context) {
+  Widget buildCategoryDropdown() {
     final editProvider = Provider.of<EditProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -206,7 +209,9 @@ class EditPageWidget extends StatelessWidget {
         }).toList(),
         onChanged: (String? value) {
           if (value != null) {
-            editProvider.selectCategory = value;
+            setState(() {
+              editProvider.selectCategory = value;
+            });
           }
         },
         validator: (value) {
@@ -220,8 +225,8 @@ class EditPageWidget extends StatelessWidget {
   }
 
   Future<void> recipeUpdate(BuildContext context) async {
+    final getProvider = Provider.of<DbProvider>(context, listen: false);
     final editProvider = Provider.of<EditProvider>(context, listen: false);
-    final updateProviderDb = Provider.of<DbProvider>(context, listen: false);
     final name = editProvider.nameController.text.trim();
     final category = editProvider.selectCategory.trim();
     final description = editProvider.descriptionController.text.trim();
@@ -233,7 +238,7 @@ class EditPageWidget extends StatelessWidget {
         description.isEmpty ||
         ingredients.isEmpty ||
         cost.isEmpty ||
-        image == null) {
+        editProvider.image == null) {
       return;
     }
 
@@ -243,9 +248,18 @@ class EditPageWidget extends StatelessWidget {
       description: description,
       ingredients: ingredients,
       cost: cost,
-      image: image,
+      image: editProvider.image,
     );
-    updateProviderDb.updateProviderByReceipe(updatedRecipe, index);
+    getProvider.updateProviderByReceipe(updatedRecipe, widget.index);
     Navigator.of(context).pop(updatedRecipe);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Your recipe updated successfully!'),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.amber,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 }
