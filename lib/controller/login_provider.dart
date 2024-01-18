@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:recipe_plates_provider/View/widget/bottom_navigation.dart';
 import 'package:recipe_plates_provider/View/widget/login_page.dart';
@@ -38,7 +37,7 @@ class LoginProvider extends ChangeNotifier {
   Future<void> goToLogin(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 3));
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginPageWidget()));
+        MaterialPageRoute(builder: (context) => const LoginPageWidget()));
     notifyListeners();
   }
 

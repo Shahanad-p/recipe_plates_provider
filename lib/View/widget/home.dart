@@ -40,11 +40,11 @@ class HomePageWidget extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
-              child: TextField(
-                // onChanged: (value) {
-                //   searchProvider.search = value;
-                //   searchProvider.searchResult(context);
-                // },
+              child: TextFormField(
+                onChanged: (value) {
+                  Provider.of<DbProvider>(context, listen: false)
+                      .filteredRecipes(value);
+                },
                 decoration: InputDecoration(
                   label: const Text('Search'),
                   hintText: 'Search your recipes here..!',
@@ -62,8 +62,8 @@ class HomePageWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 child: Consumer<DbProvider>(
                   builder: (context, value, child) {
-                    final displayedRecipes = value.recipeNotifier;
-                    if (displayedRecipes.isEmpty) {
+                    final foundrecipe = value.recipeNotifier;
+                    if (foundrecipe.isEmpty) {
                       return SizedBox(
                         height: 500,
                         child: Lottie.asset(
@@ -83,9 +83,10 @@ class HomePageWidget extends StatelessWidget {
                         crossAxisSpacing: 5,
                         mainAxisSpacing: 5,
                       ),
-                      itemCount: displayedRecipes.length,
+                      itemCount: foundrecipe.length,
                       itemBuilder: (context, index) {
-                        final recipeDatas = displayedRecipes[index];
+                        final recipeDatas = Provider.of<DbProvider>(context)
+                            .recipeNotifier[index];
                         File? recipeImage;
                         if (recipeDatas.image != null) {
                           recipeImage = File(recipeDatas.image!);

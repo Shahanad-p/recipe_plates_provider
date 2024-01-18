@@ -8,30 +8,28 @@ class SplashScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final splshProvide = Provider.of<LoginProvider>(context, listen: false);
+    final splashProvider = Provider.of<LoginProvider>(context, listen: false);
+
     return Scaffold(
       body: Center(
         child: SizedBox(
           height: double.infinity,
           width: double.infinity,
           child: FutureBuilder(
-            future: splshProvide.checkUserLoggedIn(context),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return const Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image(
-                      image: AssetImage(
-                        'assets/side-view-mushroom-frying-with-stove-spice-human-hand-pan (1).jpg',
-                      ),
-                      fit: BoxFit.cover,
+            future: splashProvider.checkUserLoggedIn(context),
+            // initialData: null, // Provide initialData as null
+            builder: (context, value) {
+              return const Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image(
+                    image: AssetImage(
+                      'assets/side-view-mushroom-frying-with-stove-spice-human-hand-pan (1).jpg',
                     ),
-                  ],
-                );
-              } else {
-                return const CircularProgressIndicator();
-              }
+                    fit: BoxFit.cover,
+                  ),
+                ],
+              );
             },
           ),
         ),
