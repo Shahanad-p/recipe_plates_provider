@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
@@ -126,6 +127,7 @@ class _EditPageWidgetState extends State<EditPageWidget> {
                         'Total cost',
                         'Edit recipe cost',
                         80.10,
+                        numeric: true,
                       ),
                     ],
                   ),
@@ -158,13 +160,17 @@ class _EditPageWidgetState extends State<EditPageWidget> {
     TextEditingController controller,
     String label,
     String hintText,
-    double height,
-  ) {
+    double height, {
+    bool numeric = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
         controller: controller,
         maxLines: null,
+        keyboardType: numeric ? TextInputType.number : TextInputType.text,
+        inputFormatters:
+            numeric ? [FilteringTextInputFormatter.digitsOnly] : null,
         decoration: InputDecoration(
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.vertical(
@@ -209,9 +215,7 @@ class _EditPageWidgetState extends State<EditPageWidget> {
         }).toList(),
         onChanged: (String? value) {
           if (value != null) {
-            setState(() {
-              editProvider.selectCategory = value;
-            });
+            editProvider.selectCategory = value;
           }
         },
         validator: (value) {
@@ -241,7 +245,6 @@ class _EditPageWidgetState extends State<EditPageWidget> {
         editProvider.image == null) {
       return;
     }
-
     final updatedRecipe = RecipeModel(
       name: name,
       category: category,
@@ -253,13 +256,13 @@ class _EditPageWidgetState extends State<EditPageWidget> {
     getProvider.updateProviderByReceipe(updatedRecipe, widget.index);
     Navigator.of(context).pop(updatedRecipe);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Your recipe updated successfully!'),
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.amber,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   const SnackBar(
+    //     content: Text('Your recipe updated successfully!'),
+    //     duration: Duration(seconds: 2),
+    //     backgroundColor: Colors.amber,
+    //     behavior: SnackBarBehavior.floating,
+    //   ),
+    // );
   }
 }

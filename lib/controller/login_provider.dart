@@ -25,7 +25,7 @@ class LoginProvider extends ChangeNotifier {
         const SnackBar(
           content: Text('You are logged in..!'),
           duration: Duration(seconds: 3),
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromARGB(255, 40, 126, 42),
         ),
       );
     } else {
