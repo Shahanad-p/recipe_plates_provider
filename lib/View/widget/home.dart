@@ -68,8 +68,8 @@ class HomePageWidget extends StatelessWidget {
                         height: 500,
                         child: Lottie.asset(
                           'assets/Animation - 1703913980311.json',
-                          height: 135,
-                          width: 135,
+                          height: 125,
+                          width: 125,
                         ),
                       );
                     }

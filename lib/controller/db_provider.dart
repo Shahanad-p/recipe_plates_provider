@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/Services/services.dart';
 
@@ -10,7 +9,7 @@ class DbProvider extends ChangeNotifier {
   List<RecipeModel> recipeNotifier = [];
   List<RecipeModel> favoriteItems = [];
   List<RecipeModel> favoriteItemsNotifier = [];
-  DbServices dbservice = DbServices();
+  final DbServices dbservice = DbServices();
 
   getAllProvideByRecepe() async {
     recipeNotifier = await dbservice.getAllRecipiesByList();
@@ -29,23 +28,19 @@ class DbProvider extends ChangeNotifier {
   }
 
   updateProviderByReceipe(RecipeModel value, index) async {
-    final recipedb = await Hive.openBox<RecipeModel>('recipe_db');
-    recipeNotifier.clear();
-    recipeNotifier.addAll(recipedb.values);
-    recipedb.putAt(index, value);
+    dbservice.updateRecipe(index, value);
     getAllProvideByRecepe();
-    notifyListeners();
   }
 
   getAllFavouriteProviderByRecipes() async {
     favoriteItems = await dbservice.getAllFavouriteRecipes();
-
     notifyListeners();
   }
 
   addToFavouriteProvider() async {
     recipeNotifier = List.from(recipeNotifier);
     favoriteItemsNotifier = favoriteItems;
+    getAllFavouriteProviderByRecipes();
   }
 
   addToFavourite(RecipeModel recipe, context) async {
@@ -55,19 +50,18 @@ class DbProvider extends ChangeNotifier {
       favoriteItems.add(recipe);
       recipeNotifier = List.from(recipeNotifier);
     }
-    notifyListeners();
+    getAllFavouriteProviderByRecipes();
   }
 
   deleteFromFavourite(int index, context) async {
     await dbservice.deleteFromFavourite(index);
     favoriteItems.removeAt(index);
-    notifyListeners();
+    getAllFavouriteProviderByRecipes();
   }
 
   loadrecipes() {
     final allrecipes = recipeList;
     foundrecipe = allrecipes;
-    notifyListeners();
     getAllProvideByRecepe();
   }
 
@@ -81,9 +75,7 @@ class DbProvider extends ChangeNotifier {
           .toList();
     }
     foundrecipe = result;
-
     getAllProvideByRecepe();
-    notifyListeners();
   }
 
   calculateTotalCost(List<RecipeModel> recipes) {

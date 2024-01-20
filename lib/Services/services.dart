@@ -17,6 +17,11 @@ class DbServices {
     recipedb.deleteAt(index);
   }
 
+  updateRecipe(int index, RecipeModel value) async {
+    final recipedb = await Hive.openBox<RecipeModel>('recipe_db');
+    recipedb.putAt(index, value);
+  }
+
   getAllFavouriteRecipes() async {
     final favoriteBox = await Hive.openBox<RecipeModel>('favorite_db');
     return favoriteBox.values.toList();

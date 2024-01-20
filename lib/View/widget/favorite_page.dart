@@ -94,15 +94,18 @@ class FavouritePageWidget extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(context).push(
+              MaterialPageRoute(
                 builder: (context) => MenuOpeningPage(
-                      name: recipe.name,
-                      category: recipe.category,
-                      description: recipe.description,
-                      ingredients: recipe.ingredients,
-                      cost: recipe.cost,
-                      selectedImagePath: File(recipe.image!),
-                    )));
+                  name: recipe.name,
+                  category: recipe.category,
+                  description: recipe.description,
+                  ingredients: recipe.ingredients,
+                  cost: recipe.cost,
+                  selectedImagePath: File(recipe.image!),
+                ),
+              ),
+            );
           },
           child: Stack(
             alignment: Alignment.topRight,

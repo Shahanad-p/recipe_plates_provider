@@ -21,6 +21,7 @@ class AddScreenProvider extends ChangeNotifier {
     'Snacks',
     'Soup'
   ];
+  
   void addProvider(value) {
     if (value != null) {
       selectedCategory = value;

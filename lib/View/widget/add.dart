@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +9,7 @@ import 'package:recipe_plates_provider/Controller/add_provider.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
 class AddPageWidget extends StatelessWidget {
-  const AddPageWidget({super.key});
+  const AddPageWidget({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -199,12 +201,12 @@ class AddPageWidget extends StatelessWidget {
                       buildImageSelectionOption(
                         'assets/Animation - 1701430677440.json',
                         'Gallery',
-                        () => selectedImageFromGallery(context),
+                        () => selectedImage(context, ImageSource.gallery),
                       ),
                       buildImageSelectionOption(
                         'assets/Animation - 1702530000704.json',
                         'Camera',
-                        () => selectedImageFromCamera(context),
+                        () => selectedImage(context, ImageSource.camera),
                       ),
                     ],
                   ),
@@ -217,20 +219,12 @@ class AddPageWidget extends StatelessWidget {
     );
   }
 
-  selectedImageFromGallery(BuildContext context) async {
+  selectedImage(BuildContext context, ImageSource source) async {
     final providerData = Provider.of<AddScreenProvider>(context, listen: false);
     setImage(
         context,
         await providerData.imagePicker
-            .pickImage(source: ImageSource.gallery, imageQuality: 10));
-  }
-
-  selectedImageFromCamera(BuildContext context) async {
-    final providerData = Provider.of<AddScreenProvider>(context, listen: false);
-    setImage(
-        context,
-        await providerData.imagePicker
-            .pickImage(source: ImageSource.camera, imageQuality: 10));
+            .pickImage(source: source, imageQuality: 10));
   }
 
   void setImage(BuildContext context, XFile? file) {

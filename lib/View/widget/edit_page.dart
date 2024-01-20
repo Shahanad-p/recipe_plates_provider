@@ -256,13 +256,13 @@ class _EditPageWidgetState extends State<EditPageWidget> {
     getProvider.updateProviderByReceipe(updatedRecipe, widget.index);
     Navigator.of(context).pop(updatedRecipe);
 
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   const SnackBar(
-    //     content: Text('Your recipe updated successfully!'),
-    //     duration: Duration(seconds: 2),
-    //     backgroundColor: Colors.amber,
-    //     behavior: SnackBarBehavior.floating,
-    //   ),
-    // );
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Your recipe updated successfully!'),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.amber,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 }
