@@ -85,8 +85,7 @@ class HomePageWidget extends StatelessWidget {
                       ),
                       itemCount: foundrecipe.length,
                       itemBuilder: (context, index) {
-                        final recipeDatas = Provider.of<DbProvider>(context)
-                            .recipeNotifier[index];
+                        final recipeDatas = value.recipeNotifier[index];
                         File? recipeImage;
                         if (recipeDatas.image != null) {
                           recipeImage = File(recipeDatas.image!);

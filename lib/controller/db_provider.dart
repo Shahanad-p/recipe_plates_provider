@@ -11,6 +11,8 @@ class DbProvider extends ChangeNotifier {
   List<RecipeModel> favoriteItemsNotifier = [];
   final DbServices dbservice = DbServices();
 
+  get image => null;
+
   getAllProvideByRecepe() async {
     recipeNotifier = await dbservice.getAllRecipiesByList();
     notifyListeners();
@@ -67,9 +69,9 @@ class DbProvider extends ChangeNotifier {
 
   filteredRecipes(String searchitem) {
     if (searchitem.isEmpty) {
-      result = recipeList;
+      foundrecipe = recipeList;
     } else {
-      result = recipeList
+      foundrecipe = recipeList
           .where((RecipeModel recipe) =>
               recipe.name.toLowerCase().contains(searchitem.toLowerCase()))
           .toList();
