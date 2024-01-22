@@ -8,9 +8,14 @@ import 'package:recipe_plates_provider/View/widget/add_decorations.dart';
 import 'package:recipe_plates_provider/Controller/add_provider.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
-class AddPageWidget extends StatelessWidget {
+class AddPageWidget extends StatefulWidget {
   const AddPageWidget({Key? key});
 
+  @override
+  State<AddPageWidget> createState() => _AddPageWidgetState();
+}
+
+class _AddPageWidgetState extends State<AddPageWidget> {
   @override
   Widget build(BuildContext context) {
     final providerData = Provider.of<AddScreenProvider>(context, listen: false);
