@@ -80,7 +80,7 @@ class SoupPage extends StatelessWidget {
         width: cardWidth,
         height: cardHeight,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.10),
+          borderRadius: BorderRadius.circular(20.20),
           boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(255, 2, 36, 17),
@@ -113,7 +113,7 @@ class SoupPage extends StatelessWidget {
             child: Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(20.10),
+                  borderRadius: BorderRadius.circular(20.20),
                   child: image != null
                       ? Image.file(
                           image,

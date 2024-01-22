@@ -108,7 +108,7 @@ class GrilledPage extends StatelessWidget {
             child: Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.20),
                   child: image != null
                       ? Image.file(
                           image,
