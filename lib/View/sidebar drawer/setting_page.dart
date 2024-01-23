@@ -22,15 +22,10 @@ class SettingPageWidget extends StatelessWidget {
             children: [
               buildSection('Profile', Icons.person),
               buildDivider(),
-              buildSection('Notification', Icons.notifications),
-              buildDivider(),
-              buildSection('Security', Icons.security),
-              buildDivider(),
-              buildSection('Account', Icons.person),
-              buildDivider(),
               buildSection('Support', Icons.support),
               buildDivider(),
-              buildSection('Mode', Icons.mode),
+              buildSection('Help', Icons.help_center_sharp
+              ),
               buildDivider(),
             ],
           ),

@@ -29,7 +29,6 @@ class DbServices {
 
   addToFavourite(RecipeModel recipe) async {
     final favoriteBox = await Hive.openBox<RecipeModel>('favorite_db');
-
     return favoriteBox.add(recipe);
   }
 

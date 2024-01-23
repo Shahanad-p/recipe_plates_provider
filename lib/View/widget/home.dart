@@ -2,16 +2,45 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:recipe_plates_provider/Model/model.dart';
 import 'package:recipe_plates_provider/View/widget/edit_page.dart';
 import 'package:recipe_plates_provider/View/widget/home_decorate.dart';
 import 'package:recipe_plates_provider/View/widget/sidebar_drawer.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
 import 'package:recipe_plates_provider/controller/snackbar_provider.dart';
 
-class HomePageWidget extends StatelessWidget {
+class HomePageWidget extends StatefulWidget {
   final String userName;
 
   const HomePageWidget({super.key, required this.userName});
+
+  @override
+  State<HomePageWidget> createState() => _HomePageWidgetState();
+}
+
+class _HomePageWidgetState extends State<HomePageWidget> {
+  List<RecipeModel> displayedRecipes = [];
+  TextEditingController searchController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+
+  @override
+  void initState() {
+    final getProvider = Provider.of<DbProvider>(context, listen: false);
+    super.initState();
+    getProvider.getAllProvideByRecepe();
+    displayedRecipes = getProvider.recipeNotifier;
+    usernameController.dispose();
+  }
+
+  void filterRecipes(String query) {
+    final getProvider = Provider.of<DbProvider>(context, listen: false);
+    setState(() {
+      displayedRecipes = getProvider.recipeNotifier
+          .where((recipe) =>
+              recipe.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

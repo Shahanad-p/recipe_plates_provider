@@ -17,7 +17,7 @@ Future<void> resetRecipe(BuildContext context) async {
             children: [
               const Text(
                 "This will be delete your all recipies. Do you want to continue..?",
-                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                style: TextStyle(color: Colors.redAccent),
               ),
               const SizedBox(height: 10.20),
               Lottie.asset('assets/Animation - 1703841326068.json',
@@ -29,7 +29,7 @@ Future<void> resetRecipe(BuildContext context) async {
           TextButton(
             child: const Text(
               "Cancel",
-              style: TextStyle(color: Color.fromARGB(255, 5, 5, 5)),
+              style: TextStyle(color: Colors.black),
             ),
             onPressed: () {
               Navigator.of(context).pop(false);
@@ -38,7 +38,7 @@ Future<void> resetRecipe(BuildContext context) async {
           TextButton(
             child: const Text(
               "Reset",
-              style: TextStyle(color: Color.fromARGB(255, 245, 0, 0)),
+              style: TextStyle(color: Colors.red),
             ),
             onPressed: () {
               Navigator.of(context).pop(true);

@@ -11,8 +11,6 @@ class DbProvider extends ChangeNotifier {
   List<RecipeModel> favoriteItemsNotifier = [];
   final DbServices dbservice = DbServices();
 
-  get image => null;
-
   getAllProvideByRecepe() async {
     recipeNotifier = await dbservice.getAllRecipiesByList();
     notifyListeners();
@@ -39,18 +37,12 @@ class DbProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  addToFavouriteProvider() async {
-    recipeNotifier = List.from(recipeNotifier);
-    favoriteItemsNotifier = favoriteItems;
-    getAllFavouriteProviderByRecipes();
-  }
-
   addToFavourite(RecipeModel recipe, context) async {
     await dbservice.addToFavourite(recipe);
     bool isAlreadyInFavorites = favoriteItems.contains(recipe);
     if (!isAlreadyInFavorites) {
       favoriteItems.add(recipe);
-      recipeNotifier = List.from(recipeNotifier);
+      // recipeNotifier = List.from(recipeNotifier);
     }
     getAllFavouriteProviderByRecipes();
   }
@@ -61,11 +53,11 @@ class DbProvider extends ChangeNotifier {
     getAllFavouriteProviderByRecipes();
   }
 
-  loadrecipes() {
-    final allrecipes = recipeList;
-    foundrecipe = allrecipes;
-    getAllProvideByRecepe();
-  }
+  // loadrecipes() {
+  //   final allrecipes = recipeList;
+  //   foundrecipe = allrecipes;
+  //   getAllProvideByRecepe();
+  // }
 
   filteredRecipes(String searchitem) {
     if (searchitem.isEmpty) {
