@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_plates_provider/View/sidebar%20drawer/about_page.dart';
-import 'package:recipe_plates_provider/View/sidebar%20drawer/data_reset.dart';
-import 'package:recipe_plates_provider/View/sidebar%20drawer/setting_page.dart';
-import 'package:recipe_plates_provider/View/sidebar%20drawer/terms_condions_page.dart';
+import 'package:recipe_plates_provider/view/sidebar%20drawer/about_page.dart';
+import 'package:recipe_plates_provider/view/sidebar%20drawer/data_reset.dart';
+import 'package:recipe_plates_provider/view/sidebar%20drawer/setting_page.dart';
+import 'package:recipe_plates_provider/view/sidebar%20drawer/terms_condions_page.dart';
 import 'package:recipe_plates_provider/controller/login_provider.dart';
 
 class SideBarDrawer extends StatelessWidget {

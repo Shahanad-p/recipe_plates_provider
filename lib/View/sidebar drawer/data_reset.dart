@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
-import 'package:recipe_plates_provider/View/widget/splash_screen.dart';
+import 'package:recipe_plates_provider/view/widget/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> resetRecipe(BuildContext context) async {

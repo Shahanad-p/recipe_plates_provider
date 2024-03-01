@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_plates_provider/View/widget/delete_snakbar.dart';
+import 'package:recipe_plates_provider/view/widget/delete_snakbar.dart';
 
 class SnackBarProvider extends ChangeNotifier {
   void deleteRecipies(BuildContext context, int index) {

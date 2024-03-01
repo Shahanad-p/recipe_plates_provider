@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:recipe_plates_provider/View/widget/menu.dart';
+import 'package:recipe_plates_provider/view/widget/menu.dart';
 
 Widget buildGridList(
   BuildContext context, {

@@ -4,7 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_plates_provider/Model/model.dart';
-import 'package:recipe_plates_provider/View/widget/splash_screen.dart';
+import 'package:recipe_plates_provider/view/widget/splash_screen.dart';
 import 'package:recipe_plates_provider/Controller/add_provider.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
 import 'package:recipe_plates_provider/controller/bottom_provider.dart';

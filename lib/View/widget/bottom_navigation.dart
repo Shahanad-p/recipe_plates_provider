@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_plates_provider/View/widget/add.dart';
-import 'package:recipe_plates_provider/View/widget/category_page.dart';
-import 'package:recipe_plates_provider/View/widget/favorite_page.dart';
-import 'package:recipe_plates_provider/View/widget/home.dart';
-import 'package:recipe_plates_provider/View/widget/pie_chart.dart';
+import 'package:recipe_plates_provider/view/widget/add.dart';
+import 'package:recipe_plates_provider/view/widget/category_page.dart';
+import 'package:recipe_plates_provider/view/widget/favorite_page.dart';
+import 'package:recipe_plates_provider/view/widget/home.dart';
+import 'package:recipe_plates_provider/view/widget/pie_chart.dart';
 import 'package:recipe_plates_provider/controller/bottom_provider.dart';
 
 class BottomNavBarWidget extends StatelessWidget {

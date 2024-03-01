@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_plates_provider/View/widget/menu.dart';
+import 'package:recipe_plates_provider/view/widget/menu.dart';
 import 'package:recipe_plates_provider/Controller/db_provider.dart';
 
 class SaladsPage extends StatelessWidget {
